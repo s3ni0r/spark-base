@@ -1,7 +1,9 @@
-#spark-base
+# spark-base
+
 Spark application base containing utilities for development and tests
 
-##Logging
+## Logging
+
 Logging in spark is a bit tricky, instead of using prints all over the place, because loggers are not serializable, we 
 can use a workaround like this :
 ```
@@ -18,7 +20,10 @@ val dumpRdd = sparkContext.parallelize(1 to 100, 2)
                 .collect()
 ```
 
-##Testing
-- TODO
-##Contexts and application
-- TODO
+## Testing
+
+- [ ] TODO
+
+## Contexts and application
+
+- [ ] TODO
