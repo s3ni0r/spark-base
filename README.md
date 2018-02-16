@@ -16,10 +16,11 @@ and then on workers closures
 
 ```scala
 import fr.s3ni0r.utils.spark.{Utils ⇒ SparkUtils}
-import fr.s3ni0r.utils.logger._
+import fr.s3ni0r.utils.logger.Logger
 
 object MyJob extends App with SparkUtils {
-  withSparkContext("MyJob") { (sparkContext, logger) ⇒
+  withSparkContext("MyJob") { (sparkContext, driverLogger) ⇒
+    driverLogger.warn("Job started")
     val dumpRdd = sparkContext.parallelize(1 to 100, 2)
       .map(e => Logger("Worker").log.info("Ping!"))
       .collect()
