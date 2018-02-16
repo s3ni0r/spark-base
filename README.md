@@ -15,9 +15,16 @@ case class Logger(name: String) extends Serializable {
 and then on workers closures 
 
 ```scala
-val dumpRdd = sparkContext.parallelize(1 to 100, 2)
-                .map(e => Logger("Worker").log.info("Ping!"))
-                .collect()
+import fr.s3ni0r.utils.spark.{Utils ⇒ SparkUtils}
+import fr.s3ni0r.utils.logger._
+
+object MyJob extends App with SparkUtils {
+  withSparkContext("MyJob") { (sparkContext, logger) ⇒
+    val dumpRdd = sparkContext.parallelize(1 to 100, 2)
+      .map(e => Logger("Worker").log.info("Ping!"))
+      .collect()
+  }
+}
 ```
 
 ## Contexts and application
