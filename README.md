@@ -44,9 +44,7 @@ def withSparkContext(appName: String = s"Job_${getCurrentDate()}", isLocal: Bool
     }
   }
 ```
-
 - usage
-
 ```scala
 import fr.s3ni0r.utils.spark.{Utils ⇒ SparkUtils}
 
@@ -77,11 +75,12 @@ def withSparkHiveContexts(appName: String = s"Job_${getCurrentDate()}", isLocal:
     }
   }
 ```
+- usage
 ```scala
 import fr.s3ni0r.utils.spark.{Utils ⇒ SparkUtils}
 
 object MyJob extends App with SparkUtils {
-  withSparkContext("MyJob") { (sparkContext, logger) ⇒
+  withSparkContext("MyJob") { (sparkContext, hiveContext, logger) ⇒
     /* Your code here */
   }
 }
@@ -107,11 +106,12 @@ def withSparkSqlContexts(appName: String = s"Job_${getCurrentDate()}", isLocal: 
     }
   }
 ```
+- usage
 ```scala
 import fr.s3ni0r.utils.spark.{Utils ⇒ SparkUtils}
 
 object MyJob extends App with SparkUtils {
-  withSparkContext("MyJob") { (sparkContext, logger) ⇒
+  withSparkContext("MyJob") { (sparkContext, sqlContext, logger) ⇒
     /* Your code here */
   }
 }
@@ -140,11 +140,12 @@ def withSparkSqlHiveContexts(appName: String = s"Job_${getCurrentDate()}", isLoc
     }
   }
 ```
+- usage
 ```scala
 import fr.s3ni0r.utils.spark.{Utils ⇒ SparkUtils}
 
 object MyJob extends App with SparkUtils {
-  withSparkContext("MyJob") { (sparkContext, logger) ⇒
+  withSparkContext("MyJob") { (sparkContext, sqlContext, hiveContext, logger) ⇒
     /* Your code here */
   }
 }
