@@ -166,13 +166,23 @@ object MyJob extends App with SparkUtils {
 Let's face it, using web interfaces to upload job files into HDFS is painful, in case you have access to it via webhdfs
 you can use this script to sync a local directory containing the needed files to configure and run a spark job.
 
-- `You need to have access to HDFS via webhdfs, with of course needed credentials and enough authorisation to do so.`
+`
+Requirements:
+- [Jq](https://stedolan.github.io/jq/) : to parse json output
+- You need to have access to HDFS via webhdfs, with of course needed credentials and enough authorisation to do so.
+`
 
 ```bash
-export WEBHDFS_URL=https://#################/v1
-export WEBHDFS_USER="#############"
-export WEBHDFS_PASSWORD="############"
-./scripts/deploy/sync_dir_to_hdfs.sh local_dir remote_dir
+export TECHNICAL_USER=##########
+export TECHNICAL_PASSWORD=##########
+export WEBHDFS_URL=https://##########:####/gateway/default/webhdfs/v1
+export WEBHDFS_USER=##########
+export WEBHDFS_PASSWORD=##########
+export OOZIE_URL=https://##########:####/gateway/default/oozie/v1
+export OOZIE_USER=##########
+export OOZIE_PASSWORD=##########
+export BASE_HDFS_DIRECTORY=####/#####/####
+./scripts/deploy/sync_dir_to_hdfs.sh relatif_local_dir remote_dir
 ```
 
 ## Testing
