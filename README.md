@@ -182,7 +182,7 @@ export OOZIE_URL=https://##########:####/gateway/default/oozie/v1
 export OOZIE_USER=##########
 export OOZIE_PASSWORD=##########
 export BASE_HDFS_DIRECTORY=####/#####/####
-./scripts/deploy/sync_dir_to_hdfs.sh relatif_local_dir remote_dir
+./scripts/deploy/deploy.sh relatif_local_dir remote_dir
 ```
 
 ## Testing
