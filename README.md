@@ -5,7 +5,7 @@ Spark application base containing utilities for development and tests
 ## Logging
 
 Logging in spark is a bit tricky, instead of using prints all over the place, because loggers are not serializable, we 
-can use a workaround like this :
+can use a workaround like below :
 ```scala
 case class Logger(name: String) extends Serializable {
   @transient lazy val log = org.apache.log4j.LogManager.getLogger(name)
@@ -31,7 +31,7 @@ object MyJob extends App with SparkUtils {
 ## Contexts and application
 
 ### Wrapper function to expose contexts
-- These wrappers initiates contexts and execute a block of code inside a try closure and ensures that sparkContext is closed at the end 
+- These wrappers functions initiates contexts and execute a block of code inside a try closure and ensures that sparkContext is closed at the end 
 #### Spark context
 ```scala
 def withSparkContext(appName: String = s"Job_${getCurrentDate()}", isLocal: Boolean = false)
@@ -161,28 +161,32 @@ object MyJob extends App with SparkUtils {
 
 ## Deployment
 
-### Syncing files via Webhdfs
+Let's face it, using web interfaces to upload files into HDFS or to configure and launch a spark job is painful.
+in case you have access to HDFS via Webhdfs and to Oozie you can use this `scripts/deploy/deploy.sh` script to :
 
-Let's face it, using web interfaces to upload job files into HDFS is painful, in case you have access to it via webhdfs
-you can use this script to sync a local directory containing the needed files to configure and run a spark job.
+- Sync your local directory containing the needed files `(Spark job jar, workflow.xml, etc...)` to configure and run a spark job.
+- Run the spark job via Oozie
+- Open up yarn log history pages for the job spark workflow
 
-`
-Requirements:
-- [Jq](https://stedolan.github.io/jq/) : to parse json output
-- You need to have access to HDFS via webhdfs, with of course needed credentials and enough authorisation to do so.
-`
+> Requirements:
+> - [Jq](https://stedolan.github.io/jq/) : to parse json output
+> - You need to have access to HDFS via Webhdfs, with of course needed credentials and enough authorisation to do so.
 
 ```bash
-export TECHNICAL_USER=##########
-export TECHNICAL_PASSWORD=##########
-export WEBHDFS_URL=https://##########:####/gateway/default/webhdfs/v1
-export WEBHDFS_USER=##########
-export WEBHDFS_PASSWORD=##########
-export OOZIE_URL=https://##########:####/gateway/default/oozie/v1
-export OOZIE_USER=##########
-export OOZIE_PASSWORD=##########
-export BASE_HDFS_DIRECTORY=####/#####/####
-./scripts/deploy/deploy.sh relatif_local_dir remote_dir
+# These environment variables are needed and will be used in the bash script
+export WEBHDFS_URL=https://*********:****/gateway/default/webhdfs/v1
+export WEBHDFS_USER=*********
+export WEBHDFS_PASSWORD=*********
+export OOZIE_URL=https://*********:####/gateway/default/oozie/v1
+export OOZIE_USER=*********
+export OOZIE_PASSWORD=*********
+export BASE_HDFS_DIRECTORY=path/to/work/directory
+##############################################################################################
+# deploy.sh param1 param2                                                                    #
+#   param1: Relative directory to folder containing job files                                #
+#   param2: Folder to create in remote HDFS which will be appanded to ${BASE_HDFS_DIRECTORY} #
+##############################################################################################
+./scripts/deploy/deploy.sh ./job project-x
 ```
 
 ## Testing
