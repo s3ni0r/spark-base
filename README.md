@@ -2,6 +2,15 @@
 
 Spark application base containing utilities for development and tests
 
+- [Logging](https://github.com/s3ni0r/spark-base#logging)
+- [Contexts and application](https://github.com/s3ni0r/spark-base#contexts-and-application)
+    - [Spark context](https://github.com/s3ni0r/spark-base#spark-context)
+    - [Spark and Hive contexts](https://github.com/s3ni0r/spark-base#spark-and-hive-contexts)
+    - [Spark and Sql contexts](https://github.com/s3ni0r/spark-base#spark-and-sql-contexts)
+    - [Spark, Hive and Sql contexts](https://github.com/s3ni0r/spark-base#spark-hive-and-sql-contexts)
+- [Deployment](https://github.com/s3ni0r/spark-base#deployment)
+- [Testing](https://github.com/s3ni0r/spark-base#testing)
+
 ## Logging
 
 Logging in spark is a bit tricky, instead of using prints all over the place, because loggers are not serializable, we 
@@ -28,10 +37,10 @@ object MyJob extends App with SparkUtils {
 }
 ```
 
-## Contexts and application
+## Contexts
 
-### Wrapper function to expose contexts
-- These wrappers functions initiates contexts and execute a block of code inside a try closure and ensures that sparkContext is closed at the end 
+These wrappers functions initiates contexts and execute a block of code inside a try closure and ensures that sparkContext is closed at the end 
+
 #### Spark context
 ```scala
 def withSparkContext(appName: String = s"Job_${getCurrentDate()}", isLocal: Boolean = false)
@@ -62,6 +71,7 @@ object MyJob extends App with SparkUtils {
   }
 }
 ```
+
 #### Spark and Hive contexts
 ```scala
 def withSparkHiveContexts(appName: String = s"Job_${getCurrentDate()}", isLocal: Boolean = false)(
@@ -162,15 +172,16 @@ object MyJob extends App with SparkUtils {
 ## Deployment
 
 Let's face it, using web interfaces to upload files into HDFS or to configure and launch a spark job is painful.
-in case you have access to HDFS via Webhdfs and to Oozie you can use this `scripts/deploy/deploy.sh` script to :
+in case you have access to HDFS via Webhdfs and to Oozie you can use this [deploy.sh script](https://github.com/s3ni0r/spark-base/blob/master/scripts/deploy/deploy.sh) to :
 
 - Sync your local directory containing the needed files `(Spark job jar, workflow.xml, etc...)` to configure and run a spark job.
 - Run the spark job via Oozie
 - Open up yarn log history pages for the job spark workflow
 
-> Requirements:
-> - [Jq](https://stedolan.github.io/jq/) : to parse json output
-> - You need to have access to HDFS via Webhdfs, with of course needed credentials and enough authorisation to do so.
+### Requirements:
+
+- [Jq](https://stedolan.github.io/jq/) : to parse json output
+- Access to HDFS via Webhdfs, with of course needed credentials and enough authorisation to do so.
 
 ```bash
 # These environment variables are needed and will be used in the bash script
@@ -184,7 +195,7 @@ export BASE_HDFS_DIRECTORY=path/to/work/directory
 ##############################################################################################
 # deploy.sh param1 param2                                                                    #
 #   param1: Relative directory to folder containing job files                                #
-#   param2: Folder to create in remote HDFS which will be appanded to ${BASE_HDFS_DIRECTORY} #
+#   param2: Folder to create in remote HDFS which will be appended to ${BASE_HDFS_DIRECTORY} #
 ##############################################################################################
 ./scripts/deploy/deploy.sh ./job project-x
 ```

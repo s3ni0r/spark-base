@@ -67,6 +67,7 @@ launch_job(){
 #    echo "launch_job"
 #    echo ${LOCAL_JOB_FOLDER}/job.properties.xml
     JOB_ID=`curl -k -u ${OOZIE_USER}:${OOZIE_PASSWORD} -H Content-Type:application/xml -T "${LOCAL_JOB_FOLDER}/job.properties.xml" -X POST "$OOZIE_URL/jobs?action=start" | jq ".id"`
+    sleep 5
 }
 
 display_logs(){
@@ -92,5 +93,4 @@ display_logs(){
 create_folder $REMOTE_JOB_FOLDER
 sync_job_dir "$LOCAL_JOB_FOLDER/*"
 launch_job
-sleep 5
 display_logs
