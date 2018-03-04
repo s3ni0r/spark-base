@@ -3,7 +3,7 @@
 Spark application base containing utilities for development and tests
 
 - [Logging](https://github.com/s3ni0r/spark-base#logging)
-- [Contexts and application](https://github.com/s3ni0r/spark-base#contexts-and-application)
+- [Contexts](https://github.com/s3ni0r/spark-base#contexts)
     - [Spark context](https://github.com/s3ni0r/spark-base#spark-context)
     - [Spark and Hive contexts](https://github.com/s3ni0r/spark-base#spark-and-hive-contexts)
     - [Spark and Sql contexts](https://github.com/s3ni0r/spark-base#spark-and-sql-contexts)
